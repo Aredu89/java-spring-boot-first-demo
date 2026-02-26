@@ -12,6 +12,6 @@ public class MyRestController {
 
     @GetMapping("/")
      public String sayHello() {
-         return "Hello World. Team Name: " + teamName;
+         return "Edited. Team Name: " + teamName;
      }
 }
