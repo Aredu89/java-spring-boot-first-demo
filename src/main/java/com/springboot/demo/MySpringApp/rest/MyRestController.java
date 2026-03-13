@@ -19,10 +19,17 @@ public class MyRestController {
      }
 
      // Define a constructor for dependency injection
+    //@Autowired
+     //public MyRestController(Coach theCoach) {
+      //  myCoach = theCoach;
+     //}
+
+    // setter method for dependency injection
+    // This function could have any name
     @Autowired
-     public MyRestController(Coach theCoach) {
+    public void setMyCoach(Coach theCoach) {
         myCoach = theCoach;
-     }
+    }
 
      @GetMapping("/dailyworkout")
      public String getDailyWorkout() {
