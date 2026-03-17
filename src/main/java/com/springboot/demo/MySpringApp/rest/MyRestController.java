@@ -12,6 +12,7 @@ public class MyRestController {
     @Value("${team.name}")
     private String teamName;
     private Coach myCoach;
+    private Coach anotherCoach;
     // add code to expose "/" that return "Hello World"
 
     @GetMapping("/")
@@ -21,9 +22,13 @@ public class MyRestController {
 
      // Define a constructor for dependency injection
     @Autowired
-     public MyRestController(@Qualifier("tennisCoach") Coach theCoach) {
+     public MyRestController(
+             @Qualifier("tennisCoach") Coach theCoach,
+             @Qualifier("tennisCoach") Coach theOtherCoach
+    ) {
         System.out.println("In constructor: " + getClass().getSimpleName());
         myCoach = theCoach;
+        anotherCoach = theOtherCoach;
      }
 
     // setter method for dependency injection
@@ -37,4 +42,10 @@ public class MyRestController {
      public String getDailyWorkout() {
         return myCoach.getDailyWorkout();
      }
+
+     @GetMapping("/check")
+    public String check() {
+        boolean result = (myCoach == anotherCoach);
+        return "Pointing to the same object: " + result;
+    }
 }
