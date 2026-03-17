@@ -22,6 +22,7 @@ public class MyRestController {
      // Define a constructor for dependency injection
     @Autowired
      public MyRestController(@Qualifier("tennisCoach") Coach theCoach) {
+        System.out.println("In constructor: " + getClass().getSimpleName());
         myCoach = theCoach;
      }
 
