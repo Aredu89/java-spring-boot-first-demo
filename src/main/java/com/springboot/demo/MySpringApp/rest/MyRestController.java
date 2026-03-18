@@ -13,6 +13,7 @@ public class MyRestController {
     private String teamName;
     private Coach myCoach;
     private Coach anotherCoach;
+    private Coach cricketCoach;
     // add code to expose "/" that return "Hello World"
 
     @GetMapping("/")
@@ -24,19 +25,21 @@ public class MyRestController {
     @Autowired
      public MyRestController(
              @Qualifier("tennisCoach") Coach theCoach,
-             @Qualifier("tennisCoach") Coach theOtherCoach
+             @Qualifier("tennisCoach") Coach theOtherCoach,
+             @Qualifier("cricketCoach") Coach theCricketCoach
     ) {
         System.out.println("In constructor: " + getClass().getSimpleName());
         myCoach = theCoach;
         anotherCoach = theOtherCoach;
+        cricketCoach = theCricketCoach;
      }
 
     // setter method for dependency injection
     // This function could have any name
-//    @Autowired
-//    public void setMyCoach(Coach theCoach) {
-//        myCoach = theCoach;
-//    }
+    // @Autowired
+    // public void setMyCoach(Coach theCoach) {
+    //     myCoach = theCoach;
+    // }
 
      @GetMapping("/dailyworkout")
      public String getDailyWorkout() {
