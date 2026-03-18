@@ -14,8 +14,9 @@ public class MyRestController {
     private Coach myCoach;
     private Coach anotherCoach;
     private Coach cricketCoach;
-    // add code to expose "/" that return "Hello World"
+    private Coach swimCoach;
 
+    // add code to expose "/" that return "Hello World"
     @GetMapping("/")
      public String sayHello() {
          return "Edited. Team Name: " + teamName;
@@ -26,12 +27,14 @@ public class MyRestController {
      public MyRestController(
              @Qualifier("tennisCoach") Coach theCoach,
              @Qualifier("tennisCoach") Coach theOtherCoach,
-             @Qualifier("cricketCoach") Coach theCricketCoach
+             @Qualifier("cricketCoach") Coach theCricketCoach,
+             @Qualifier("swimCoach") Coach theSwimCoach
     ) {
         System.out.println("In constructor: " + getClass().getSimpleName());
         myCoach = theCoach;
         anotherCoach = theOtherCoach;
         cricketCoach = theCricketCoach;
+        swimCoach = theSwimCoach;
      }
 
     // setter method for dependency injection
@@ -43,7 +46,7 @@ public class MyRestController {
 
      @GetMapping("/dailyworkout")
      public String getDailyWorkout() {
-        return myCoach.getDailyWorkout();
+        return swimCoach.getDailyWorkout();
      }
 
      @GetMapping("/check")
