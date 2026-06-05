@@ -18,9 +18,9 @@ public class StudentRestController {
     @PostConstruct
     public void loadData() {
         theStudents = new ArrayList<>();
-        theStudents.add(new Student("John", "Doe"));
-        theStudents.add(new Student("Mary", "Public"));
-        theStudents.add(new Student("Bonita", "Applebum"));
+        theStudents.add(new Student("John", "Doe", "jdoe@email.com"));
+        theStudents.add(new Student("Mary", "Public", "mpublic@email.com"));
+        theStudents.add(new Student("Bonita", "Applebum", "bapplebum@email.com"));
     }
 
     // define endpoint for "/students" - return list of students
