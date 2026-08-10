@@ -30,9 +30,19 @@ public class MySpringAppApplication {
 //			createStudent(studentDAO);
 //			createMultipleStudents(studentDAO);
 //			readStudent(studentDAO);
-
-			queryForStudents(studentDAO);
+//			queryForStudents(studentDAO);
+			queryForStudentsByLastName(studentDAO);
 		};
+	}
+
+	private void queryForStudentsByLastName(StudentDAO studentDAO) {
+		// Get students
+		List<Student> theStudents = studentDAO.findByLastName("Wall");
+
+		// Display students
+		for (Student tempStudent : theStudents) {
+			System.out.println(tempStudent);
+		}
 	}
 
 	private void queryForStudents(StudentDAO studentDAO) {
