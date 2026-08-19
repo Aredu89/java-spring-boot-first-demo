@@ -32,8 +32,16 @@ public class MySpringAppApplication {
 //			readStudent(studentDAO);
 //			queryForStudents(studentDAO);
 //			queryForStudentsByLastName(studentDAO);
-			updateStudent(studentDAO);
+			// updateStudent(studentDAO);
+			deleteStudent(studentDAO);
 		};
+	}
+
+	private void deleteStudent(StudentDAO studentDAO) {
+		int studentId = 3;
+		System.out.println("Deleting student with id: " + studentId);
+		studentDAO.delete(studentId);
+		System.out.println("Deleted student with id: " + studentId);
 	}
 
 	private void updateStudent(StudentDAO studentDAO) {
