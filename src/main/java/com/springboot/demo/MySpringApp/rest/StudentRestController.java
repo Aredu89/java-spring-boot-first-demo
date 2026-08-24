@@ -1,5 +1,6 @@
 package com.springboot.demo.MySpringApp.rest;
 
+import com.springboot.demo.MySpringApp.dao.StudentDAO;
 import com.springboot.demo.MySpringApp.entity.Student;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
@@ -13,57 +14,16 @@ import java.util.List;
 @RequestMapping("/api")
 public class StudentRestController {
 
-    private List<Student> theStudents;
-    @PostConstruct
-    public void loadData() {
-        theStudents = new ArrayList<>();
-        theStudents.add(new Student("John", "Doe", "jdoe@email.com"));
-        theStudents.add(new Student("Mary", "Public", "mpublic@email.com"));
-        theStudents.add(new Student("Bonita", "Applebum", "bapplebum@email.com"));
+    private StudentDAO studentDAO;
+
+    // Quick and dirty: inject Student DAO (use constructor injection)
+    public StudentRestController(StudentDAO studentDAO) {
+        this.studentDAO = studentDAO;
     }
 
     // define endpoint for "/students" - return list of students
-
      @GetMapping("/students")
-     public List<Student> getStudents() {
-         return theStudents;
-     }
-
-     @GetMapping("/students/{studentId}")
-     public Student getStudent(@PathVariable int studentId) {
-
-        //Check studentId against list size
-         if(studentId >= theStudents.size() || studentId < 0) {
-             throw new StudentNotFoundException("Student id not found: " + studentId);
-         }
-        return theStudents.get(studentId);
-     }
-
-     //Add exception handler
-    @ExceptionHandler
-    public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exc) {
-        // create a StudentErrorResponse
-        StudentErrorResponse error = new StudentErrorResponse();
-
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        // Return response entity
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    // Exception handler for any type of exception
-    @ExceptionHandler
-    public ResponseEntity<StudentErrorResponse> handleException(Exception exc) {
-        // create a StudentErrorResponse
-        StudentErrorResponse error = new StudentErrorResponse();
-
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        // Return response entity
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
+     public List<Student> findAll() {
+         return studentDAO.findAll();
+     };
 }
