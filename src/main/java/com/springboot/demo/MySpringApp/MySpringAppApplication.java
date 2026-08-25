@@ -15,7 +15,8 @@ import java.util.List;
 				"com.springboot.demo.MySpringApp.entity",
 				"com.springboot.demo.MySpringApp.common",
 				"com.springboot.demo.MySpringApp.config",
-				"com.springboot.demo.MySpringApp.dao"
+				"com.springboot.demo.MySpringApp.dao",
+				"com.springboot.demo.MySpringApp.service"
 		}
 )
 public class MySpringAppApplication {
