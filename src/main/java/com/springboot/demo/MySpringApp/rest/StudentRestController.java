@@ -18,10 +18,19 @@ public class StudentRestController {
         this.studentService = studentService;
     }
 
+    // define endpoint for "/students" - return list of students
      @GetMapping("/students")
      public List<Student> findAll() {
          return studentService.findAll();
      };
 
-
+    // add mapping for GET /students/{studentId}
+    @GetMapping("/students/{studentId}")
+    public Student getStudent(@PathVariable int studentId) {
+        Student student = studentService.findById(studentId);
+        if (student == null) {
+            throw new RuntimeException("Student id not found - " + studentId);
+        }
+        return student;
+    }
 }
