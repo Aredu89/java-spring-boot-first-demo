@@ -18,9 +18,10 @@ public class StudentRestController {
         this.studentService = studentService;
     }
 
-    // define endpoint for "/students" - return list of students
      @GetMapping("/students")
      public List<Student> findAll() {
          return studentService.findAll();
      };
+
+
 }
