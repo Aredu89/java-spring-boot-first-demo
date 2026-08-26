@@ -43,4 +43,16 @@ public class StudentRestController {
 
         return dbStudent;
     }
+
+    @PutMapping("/students")
+    public Student updateStudent(@RequestBody Student student) {
+        Student dbStudent = studentService.update(student);
+
+        return dbStudent;
+    }
+
+    @DeleteMapping("/students/{studentId}")
+    public void deleteStudent(@PathVariable int studentId) {
+        studentService.delete(studentId);
+    }
 }
