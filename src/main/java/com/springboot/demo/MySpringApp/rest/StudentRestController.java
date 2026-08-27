@@ -4,18 +4,22 @@ import com.springboot.demo.MySpringApp.entity.Student;
 import com.springboot.demo.MySpringApp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class StudentRestController {
 
     private StudentService studentService;
+    private JsonMapper jsonMapper;
 
     @Autowired
-    public StudentRestController(StudentService studentService) {
+    public StudentRestController(StudentService studentService, JsonMapper jsonMapper) {
         this.studentService = studentService;
+        this.jsonMapper = jsonMapper;
     }
 
     // define endpoint for "/students" - return list of students
@@ -49,6 +53,24 @@ public class StudentRestController {
         Student dbStudent = studentService.update(student);
 
         return dbStudent;
+    }
+
+    @PatchMapping("/students/{studentId}")
+    public Student patchStudent(@PathVariable int studentId, @RequestBody Map<String, Object> patchPayload) {
+        Student student = studentService.findById(studentId);
+
+        if(student == null) {
+            throw new RuntimeException("Student id not found - " + studentId);
+        }
+
+        if(patchPayload.containsKey("id")) {
+            throw new RuntimeException("Student id not allowed in the request body");
+        }
+
+        // Apply the patch to the student object
+        Student patchedStudent = jsonMapper.updateValue(student, patchPayload);
+
+        return studentService.update(patchedStudent);
     }
 
     @DeleteMapping("/students/{studentId}")
