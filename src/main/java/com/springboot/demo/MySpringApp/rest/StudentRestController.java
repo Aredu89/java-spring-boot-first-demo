@@ -74,7 +74,14 @@ public class StudentRestController {
     }
 
     @DeleteMapping("/students/{studentId}")
-    public void deleteStudent(@PathVariable int studentId) {
+    public String deleteStudent(@PathVariable int studentId) {
+        Student student = studentService.findById(studentId);
+        if(student == null) {
+            throw new RuntimeException("Student id not found - " + studentId);
+        };
+
         studentService.delete(studentId);
+
+        return "Deleted student id - " + studentId;
     }
 }
