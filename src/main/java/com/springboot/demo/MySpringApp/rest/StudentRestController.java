@@ -43,14 +43,18 @@ public class StudentRestController {
         // Just in case an id is passed in the JSON, set id to 0
         // So we save a new item instead of updating an existing one
         student.setId(0);
-        Student dbStudent = studentService.update(student);
-
-        return dbStudent;
+        return studentService.save(student);
     }
 
     @PutMapping("/students")
     public Student updateStudent(@RequestBody Student student) {
-        Student dbStudent = studentService.update(student);
+        Student existingStudent = studentService.findById(student.getId());
+
+        if (existingStudent == null) {
+            throw new RuntimeException("Student not found: " + student.getId());
+        }
+
+        Student dbStudent = studentService.save(student);
 
         return dbStudent;
     }
@@ -70,7 +74,7 @@ public class StudentRestController {
         // Apply the patch to the student object
         Student patchedStudent = jsonMapper.updateValue(student, patchPayload);
 
-        return studentService.update(patchedStudent);
+        return studentService.save(patchedStudent);
     }
 
     @DeleteMapping("/students/{studentId}")
@@ -80,7 +84,7 @@ public class StudentRestController {
             throw new RuntimeException("Student id not found - " + studentId);
         };
 
-        studentService.delete(studentId);
+        studentService.deleteById(studentId);
 
         return "Deleted student id - " + studentId;
     }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+// Not needed anymore. Replaced with JPA Data Repository implementation.
 @Repository
 public class StudentDaoImpl implements StudentDAO {
 

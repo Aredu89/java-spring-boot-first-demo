@@ -4,6 +4,7 @@ import com.springboot.demo.MySpringApp.entity.Student;
 
 import java.util.List;
 
+// Not needed anymore. Replaced with JPA Data Repository implementation.
 public interface StudentDAO {
 
     void save(Student student);

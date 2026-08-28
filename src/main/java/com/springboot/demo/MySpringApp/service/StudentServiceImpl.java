@@ -1,60 +1,61 @@
 package com.springboot.demo.MySpringApp.service;
 
-import com.springboot.demo.MySpringApp.dao.StudentDAO;
+import com.springboot.demo.MySpringApp.dao.StudentRepository;
 import com.springboot.demo.MySpringApp.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private StudentDAO studentDAO;
+    private StudentRepository studentRepository;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO) {
-        this.studentDAO = studentDAO;
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
     @Override
     public List<Student> findAll() {
-        return studentDAO.findAll();
+        return studentRepository.findAll();
     }
 
-    @Transactional
     @Override
-    public void save(Student student) {
-        studentDAO.save(student);
+    public Student save(Student student) {
+        return studentRepository.save(student);
     }
 
     @Override
     public Student findById(int id) {
-        return studentDAO.findById(id);
+        Optional<Student> result = studentRepository.findById(id);
+
+        Student theStudent = null;
+        if(result.isPresent()) {
+            theStudent = result.get();
+        }
+        else {
+            // we didn't find the student
+            throw new RuntimeException("Did not find student id - " + id);
+        }
+        return theStudent;
     }
 
     @Override
     public List<Student> findByLastName(String lastName) {
-        return studentDAO.findByLastName(lastName);
+        return studentRepository.findByLastName(lastName);
     }
 
-    @Transactional
     @Override
-    public Student update(Student student) {
-        return studentDAO.update(student);
+    public void deleteById(Integer id) {
+        studentRepository.deleteById(id);
     }
 
-    @Transactional
     @Override
-    public void delete(Integer id) {
-        studentDAO.delete(id);
-    }
-
-    @Transactional
-    @Override
-    public int deleteAll() {
-        return studentDAO.deleteAll();
+    public void deleteAll() {
+        studentRepository.deleteAll();
     }
 
 }
