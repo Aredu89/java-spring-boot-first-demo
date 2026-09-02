@@ -22,70 +22,13 @@ public class StudentRestController {
         this.jsonMapper = jsonMapper;
     }
 
-    // define endpoint for "/students" - return list of students
-     @GetMapping("/students")
-     public List<Student> findAll() {
-         return studentService.findAll();
-     };
+    // Having Srping Data REST in the POM file gives us all the CRUD endpoints for Free.
 
-    // add mapping for GET /students/{studentId}
-    @GetMapping("/students/{studentId}")
-    public Student getStudent(@PathVariable int studentId) {
-        Student student = studentService.findById(studentId);
-        if (student == null) {
-            throw new RuntimeException("Student id not found - " + studentId);
-        }
-        return student;
+    // We keep here and in the Service only custom endpoints and methods
+    @GetMapping("/students/search-by-last-name")
+    public List<Student> findByLastName(@RequestParam String lastName) {
+        return studentService.findByLastName(lastName);
     }
 
-    @PostMapping("/students")
-    public Student addStudent(@RequestBody Student student) {
-        // Just in case an id is passed in the JSON, set id to 0
-        // So we save a new item instead of updating an existing one
-        student.setId(0);
-        return studentService.save(student);
-    }
 
-    @PutMapping("/students")
-    public Student updateStudent(@RequestBody Student student) {
-        Student existingStudent = studentService.findById(student.getId());
-
-        if (existingStudent == null) {
-            throw new RuntimeException("Student not found: " + student.getId());
-        }
-
-        Student dbStudent = studentService.save(student);
-
-        return dbStudent;
-    }
-
-    @PatchMapping("/students/{studentId}")
-    public Student patchStudent(@PathVariable int studentId, @RequestBody Map<String, Object> patchPayload) {
-        Student student = studentService.findById(studentId);
-
-        if(student == null) {
-            throw new RuntimeException("Student id not found - " + studentId);
-        }
-
-        if(patchPayload.containsKey("id")) {
-            throw new RuntimeException("Student id not allowed in the request body");
-        }
-
-        // Apply the patch to the student object
-        Student patchedStudent = jsonMapper.updateValue(student, patchPayload);
-
-        return studentService.save(patchedStudent);
-    }
-
-    @DeleteMapping("/students/{studentId}")
-    public String deleteStudent(@PathVariable int studentId) {
-        Student student = studentService.findById(studentId);
-        if(student == null) {
-            throw new RuntimeException("Student id not found - " + studentId);
-        };
-
-        studentService.deleteById(studentId);
-
-        return "Deleted student id - " + studentId;
-    }
 }

@@ -19,43 +19,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findAll() {
-        return studentRepository.findAll();
-    }
-
-    @Override
-    public Student save(Student student) {
-        return studentRepository.save(student);
-    }
-
-    @Override
-    public Student findById(int id) {
-        Optional<Student> result = studentRepository.findById(id);
-
-        Student theStudent = null;
-        if(result.isPresent()) {
-            theStudent = result.get();
-        }
-        else {
-            // we didn't find the student
-            throw new RuntimeException("Did not find student id - " + id);
-        }
-        return theStudent;
-    }
-
-    @Override
     public List<Student> findByLastName(String lastName) {
         return studentRepository.findByLastName(lastName);
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        studentRepository.deleteById(id);
-    }
-
-    @Override
-    public void deleteAll() {
-        studentRepository.deleteAll();
     }
 
 }
