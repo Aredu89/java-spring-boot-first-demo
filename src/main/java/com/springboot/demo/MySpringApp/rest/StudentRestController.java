@@ -4,22 +4,24 @@ import com.springboot.demo.MySpringApp.entity.Student;
 import com.springboot.demo.MySpringApp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 import java.util.Map;
+
+// Swagger OpenAPI: Generates the docs in http://localhost:8080/myapp/swagger-ui/index.html/
+// Only if springdoc.enable-data-rest=false is present in the application.properties file.
+// Otherwise, it will not work
+// You can also see the api docs JSON generated in http://localhost:8080/myapp/v3/api-docs
 
 @RestController
 @RequestMapping("/api")
 public class StudentRestController {
 
     private StudentService studentService;
-    private JsonMapper jsonMapper;
 
     @Autowired
-    public StudentRestController(StudentService studentService, JsonMapper jsonMapper) {
+    public StudentRestController(StudentService studentService) {
         this.studentService = studentService;
-        this.jsonMapper = jsonMapper;
     }
 
     // Having Srping Data REST in the POM file gives us all the CRUD endpoints for Free.
